@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable, Animated, Easing } from 'react-nativ
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 import {
     buscarFraseAleatoria,
     isErro,
@@ -17,6 +18,7 @@ export default function Home() {
     const [favoritada, setFavoritada] = useState<boolean>(false);
 
     const rotation = useRef(new Animated.Value(0)).current;
+    const navigation = useNavigation(); // 👈 hook de navegação pra abrir o drawer
 
     useEffect(() => {
         carregarMensagem();
@@ -83,12 +85,10 @@ export default function Home() {
             let novaLista;
 
             if (index >= 0) {
-                // Já favoritada, vamos remover
                 novaLista = [...lista];
                 novaLista.splice(index, 1);
                 setFavoritada(false);
             } else {
-                // Ainda não favoritada, vamos adicionar
                 novaLista = [...lista, { frase, autor }];
                 setFavoritada(true);
             }
@@ -117,6 +117,14 @@ export default function Home() {
 
     return (
         <View style={styles.container}>
+            {/* Botão hambúrguer */}
+            <Pressable
+                onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+                style={styles.hamburguer}
+            >
+                <Feather name="menu" size={32} color="#333" />
+            </Pressable>
+
             {erro ? (
                 <Text style={styles.erro}>Erro: {erro}</Text>
             ) : (
@@ -129,10 +137,7 @@ export default function Home() {
                             <Feather name="refresh-ccw" size={28} color="#333" />
                         </Pressable>
 
-                        <Pressable
-                            style={styles.iconeBotao}
-                            onPress={alternarFavorito}
-                        >
+                        <Pressable style={styles.iconeBotao} onPress={alternarFavorito}>
                             <FontAwesome
                                 name="star"
                                 size={28}
@@ -153,6 +158,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 24,
         backgroundColor: '#fff',
+    },
+    hamburguer: {
+        position: 'absolute',
+        top: 50,
+        left: 20,
+        zIndex: 1,
+        padding: 8,
+        backgroundColor: '#eee',
+        borderRadius: 8,
     },
     texto: {
         fontSize: 24,

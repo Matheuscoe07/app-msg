@@ -1,19 +1,12 @@
 import 'react-native-url-polyfill/auto';
 import React from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import Home from './src/screens/Home';
+import { NavigationContainer } from '@react-navigation/native';
+import DrawerNavigator from './src/navigation/DrawerNavigator';
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <Home />
-    </SafeAreaView>
+    <NavigationContainer>
+      <DrawerNavigator />
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
