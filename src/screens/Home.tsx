@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Pressable, Animated, Easing } from 'react-native';
+import { View, StyleSheet, Pressable, Animated, Easing } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
@@ -9,6 +9,7 @@ import {
     isErro,
     ResultadoFrase,
 } from '../services/supabase';
+import AppText from '../components/AppText';
 
 export default function Home() {
     const [frase, setFrase] = useState<string>('');
@@ -18,7 +19,7 @@ export default function Home() {
     const [favoritada, setFavoritada] = useState<boolean>(false);
 
     const rotation = useRef(new Animated.Value(0)).current;
-    const navigation = useNavigation(); // 👈 hook de navegação pra abrir o drawer
+    const navigation = useNavigation();
 
     useEffect(() => {
         carregarMensagem();
@@ -110,14 +111,13 @@ export default function Home() {
                 <Animated.View style={{ transform: [{ rotate }] }}>
                     <Feather name="refresh-ccw" size={36} color="#666" />
                 </Animated.View>
-                <Text style={styles.loading}>Buscando mensagem...</Text>
+                <AppText style={styles.loading}>Buscando mensagem...</AppText>
             </View>
         );
     }
 
     return (
         <View style={styles.container}>
-            {/* Ícone hamburguer MINIMALISTA */}
             <Pressable
                 onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
                 style={styles.hamburguer}
@@ -126,11 +126,11 @@ export default function Home() {
             </Pressable>
 
             {erro ? (
-                <Text style={styles.erro}>Erro: {erro}</Text>
+                <AppText style={styles.erro}>Erro: {erro}</AppText>
             ) : (
                 <>
-                    <Text style={styles.texto}>"{frase}"</Text>
-                    <Text style={styles.autor}>— {autor}</Text>
+                    <AppText style={styles.texto}>"{frase}"</AppText>
+                    <AppText style={styles.autor}>— {autor}</AppText>
 
                     <View style={styles.botoesContainer}>
                         <Pressable style={styles.iconeBotao} onPress={carregarMensagem}>
@@ -161,18 +161,17 @@ const styles = StyleSheet.create({
     },
     hamburguer: {
         position: 'absolute',
-        top: 50,
-        left: 20,
+        top: 80,
+        left: 40,
         zIndex: 1,
-        padding: 0, // ❌ removido padding
-        backgroundColor: 'transparent', // ❌ sem fundo
+        padding: 0,
+        backgroundColor: 'transparent',
     },
     texto: {
         fontSize: 24,
         textAlign: 'center',
         fontStyle: 'italic',
         marginBottom: 12,
-        color: 'black',
     },
     autor: {
         textAlign: 'center',
