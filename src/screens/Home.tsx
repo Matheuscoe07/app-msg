@@ -117,12 +117,12 @@ export default function Home() {
 
     return (
         <View style={styles.container}>
-            {/* Botão hambúrguer */}
+            {/* Ícone hamburguer MINIMALISTA */}
             <Pressable
                 onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
                 style={styles.hamburguer}
             >
-                <Feather name="menu" size={32} color="#333" />
+                <Feather name="menu" size={32} color="black" />
             </Pressable>
 
             {erro ? (
@@ -164,15 +164,15 @@ const styles = StyleSheet.create({
         top: 50,
         left: 20,
         zIndex: 1,
-        padding: 8,
-        backgroundColor: '#eee',
-        borderRadius: 8,
+        padding: 0, // ❌ removido padding
+        backgroundColor: 'transparent', // ❌ sem fundo
     },
     texto: {
         fontSize: 24,
         textAlign: 'center',
         fontStyle: 'italic',
         marginBottom: 12,
+        color: 'black',
     },
     autor: {
         textAlign: 'center',
