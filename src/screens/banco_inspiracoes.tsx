@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
-import { db } from '../services/supabase'; // ajusta pro teu path certinho
+import {
+    View,
+    Text,
+    FlatList,
+    StyleSheet,
+    Pressable,
+    ActivityIndicator,
+    SafeAreaView,
+} from 'react-native';
+import { db } from '../services/supabase';
 import AppText from '../components/AppText';
+import { useNavigation, DrawerActions } from '@react-navigation/native';
+import { Feather } from '@expo/vector-icons';
 
 type Mensagem = {
     id: number;
@@ -15,6 +25,8 @@ export default function BancoInspiracoes() {
     const [pagina, setPagina] = useState(0);
     const LIMITE = 20;
 
+    const navigation = useNavigation();
+
     const buscarMensagens = async () => {
         setCarregando(true);
 
@@ -22,17 +34,17 @@ export default function BancoInspiracoes() {
         const to = from + LIMITE - 1;
 
         const { data, error } = await db
-        .from('frases') // nome da tua tabela
-        .select('id, frase, autor')
-        .order('id', { ascending: false }) // pra manter consistência
-        .range(from, to);
+            .from('frases')
+            .select('id, frase, autor')
+            .order('id', { ascending: false })
+            .range(from, to);
 
         if (error) {
-        console.error('Erro ao buscar mensagens:', error.message);
+            console.error('Erro ao buscar mensagens:', error.message);
         } else {
-        const embaralhadas = [...data].sort(() => Math.random() - 0.5);
-        setMensagens(prev => [...prev, ...embaralhadas]);
-        setPagina(prev => prev + 1);
+            const embaralhadas = [...data].sort(() => Math.random() - 0.5);
+            setMensagens((prev) => [...prev, ...embaralhadas]);
+            setPagina((prev) => prev + 1);
         }
 
         setCarregando(false);
@@ -43,34 +55,83 @@ export default function BancoInspiracoes() {
     }, []);
 
     return (
-        <View style={styles.container}>
-        <FlatList
-            data={mensagens}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-            <View style={styles.card}>
-                <AppText style={styles.frase}>{item.frase}</AppText>
-                <AppText style={styles.autor}>— {item.autor}</AppText>
+        <SafeAreaView style={styles.safe}>
+            {/* Botão de menu igual Home e Sobre */}
+            <Pressable
+                onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+                style={styles.hamburguer}
+            >
+                <Feather name="menu" size={32} color="black" />
+            </Pressable>
+
+            {/* Título dividido + linha decorativa */}
+            <View style={styles.tituloContainer}>
+                <AppText style={styles.titulo}>Banco de</AppText>
+                <AppText style={styles.titulo}>Inspirações</AppText>
+                <View style={styles.linha} />
             </View>
-            )}
-            ListFooterComponent={
-            carregando ? (
-                <ActivityIndicator size="large" color="#000" />
-            ) : (
-                <Pressable style={styles.botao} onPress={buscarMensagens}>
-                <Text style={styles.botaoTexto}>Carregar mais</Text>
-                </Pressable>
-            )
-            }
-        />
-        </View>
+
+            {/* Lista de frases */}
+            <View style={styles.container}>
+                <FlatList
+                    contentContainerStyle={{ paddingBottom: 32 }}
+                    data={mensagens}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => (
+                        <View style={styles.card}>
+                            <AppText style={styles.frase}>{item.frase}</AppText>
+                            <AppText style={styles.autor}>— {item.autor}</AppText>
+                        </View>
+                    )}
+                    ListFooterComponent={
+                        carregando ? (
+                            <ActivityIndicator size="large" color="#000" />
+                        ) : (
+                            <Pressable style={styles.botao} onPress={buscarMensagens}>
+                                <Text style={styles.botaoTexto}>Carregar mais</Text>
+                            </Pressable>
+                        )
+                    }
+                />
+            </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    safe: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    hamburguer: {
+        position: 'absolute',
+        top: 80,
+        left: 40,
+        zIndex: 1,
+        padding: 0,
+        backgroundColor: 'transparent',
+    },
+    tituloContainer: {
+        marginTop: 64,
+        alignItems: 'center',
+        marginBottom: 8,
+    },
+    titulo: {
+        fontSize: 24,
+        fontWeight: '700', // ou use 'Montserrat_700Bold' se estiver carregando como fonte separada
+        textAlign: 'center',
+    },
+    linha: {
+        alignSelf: 'center',
+        width: 120,
+        borderBottomColor: '#000',
+        borderBottomWidth: 1,
+        marginVertical: 12,
+    },
     container: {
         flex: 1,
-        padding: 16,
+        paddingHorizontal: 16,
+        paddingTop: 8,
     },
     card: {
         marginBottom: 16,

@@ -9,45 +9,49 @@ export default function Sobre() {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-        <Pressable
-            onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
-            style={styles.hamburguer}
-        >
-            <Feather name="menu" size={32} color="black" />
-        </Pressable>
+            {/* Botão de menu flutuante no topo esquerdo */}
+            <Pressable
+                onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+                style={styles.hamburguer}
+            >
+                <Feather name="menu" size={32} color="black" />
+            </Pressable>
 
-        <AppText style={styles.titulo}>Sobre</AppText>
-        <View style={styles.linha} />
+            {/* Título centralizado + linha decorativa */}
+            <View style={styles.tituloContainer}>
+                <AppText style={styles.titulo}>Sobre</AppText>
+                <View style={styles.linha} />
+            </View>
 
-        <AppText style={styles.subtitulo}>O App</AppText>
-        <AppText style={styles.texto}>
-            O <AppText style={styles.bold}>Espirite-se</AppText> é um aplicativo simples, direto e acolhedor que entrega mensagens inspiradoras para quem busca luz, paz e reflexão no seu dia a dia.
-            Com base na filosofia espírita kardecista, ele oferece textos curtos e profundos que podem ser lidos a qualquer hora, sem precisar de login ou cadastro.
+            <AppText style={styles.subtitulo}>O App</AppText>
+            <AppText style={styles.texto}>
+                O <AppText style={styles.bold}>Espirite-se</AppText> é um aplicativo simples, direto e acolhedor que entrega mensagens inspiradoras para quem busca luz, paz e reflexão no seu dia a dia.
+                Com base na filosofia espírita kardecista, ele oferece textos curtos e profundos que podem ser lidos a qualquer hora, sem precisar de login ou cadastro.
 
-            {'\n\n'}O app foi criado com a ideia de ser acessível para todos os públicos — desde quem já vive o espiritismo no cotidiano até quem está apenas começando a explorar esses ensinamentos.
-            É possível marcar mensagens favoritas, configurar o horário de envio diário e acessar um banco de inspirações com vários conteúdos edificantes.
+                {'\n\n'}O app foi criado com a ideia de ser acessível para todos os públicos — desde quem já vive o espiritismo no cotidiano até quem está apenas começando a explorar esses ensinamentos.
+                É possível marcar mensagens favoritas, configurar o horário de envio diário e acessar um banco de inspirações com vários conteúdos edificantes.
 
-            {'\n\n'}O projeto é <AppText style={styles.bold}>open source</AppText>, então se você curtir e quiser contribuir, fique à vontade para sugerir melhorias ou até codar junto! 💻✨
-            
-            {'\n\n'}😸 Github: github.com/Matheuscoe07/app-msg
-            {'\n'}
-        </AppText>
+                {'\n\n'}O projeto é <AppText style={styles.bold}>open source</AppText>, então se você curtir e quiser contribuir, fique à vontade para sugerir melhorias ou até codar junto! 💻✨
+                
+                {'\n\n'}😸 Github: github.com/Matheuscoe07/app-msg
+                {'\n'}
+            </AppText>
 
-        <View style={styles.linha} />
+            <View style={styles.linha} />
 
-        <AppText style={styles.subtitulo}>O Desenvolvedor</AppText>
-        <AppText style={styles.texto}>
-            Meu nome é <AppText style={styles.bold}>Matheus Coelho</AppText>, sou engenheiro da computação e sou o dev por trás desse projeto. Sou apaixonado por tecnologia, espiritualidade e por aprender fazendo.
-            Criei esse app como um espaço de prática, tanto de código quanto de fé.
+            <AppText style={styles.subtitulo}>O Desenvolvedor</AppText>
+            <AppText style={styles.texto}>
+                Meu nome é <AppText style={styles.bold}>Matheus Coelho</AppText>, sou engenheiro da computação e sou o dev por trás desse projeto. Sou apaixonado por tecnologia, espiritualidade e por aprender fazendo.
+                Criei esse app como um espaço de prática, tanto de código quanto de fé.
 
-            {'\n\n'}No processo de desenvolver o <AppText style={styles.bold}>Espirite-se</AppText>, estou usando <AppText style={styles.bold}>React Native com Expo</AppText> e Typescript, integrando com <AppText style={styles.bold}>Supabase</AppText> para gerenciar o banco de dados.
-            Tudo foi pensado para rodar leve e sem complicações — tanto para quem usa quanto para quem desenvolve.
+                {'\n\n'}No processo de desenvolver o <AppText style={styles.bold}>Espirite-se</AppText>, estou usando <AppText style={styles.bold}>React Native com Expo</AppText> e Typescript, integrando com <AppText style={styles.bold}>Supabase</AppText> para gerenciar o banco de dados.
+                Tudo foi pensado para rodar leve e sem complicações — tanto para quem usa quanto para quem desenvolve.
 
-            {'\n\n'}Se quiser trocar ideia, dar feedback ou colaborar, é só me chamar:
+                {'\n\n'}Se quiser trocar ideia, dar feedback ou colaborar, é só me chamar:
 
-            {'\n\n'}💼 LinkedIn: linkedin.com/matheuscoe07
-            {'\n\n'}
-        </AppText>
+                {'\n\n'}💼 LinkedIn: linkedin.com/matheuscoe07
+                {'\n\n'}
+            </AppText>
         </ScrollView>
     );
 }
@@ -65,19 +69,15 @@ const styles = StyleSheet.create({
         padding: 0,
         backgroundColor: 'transparent',
     },
+    tituloContainer: {
+        marginTop: 120, // Garante que fique abaixo do ícone
+        alignItems: 'center',
+        marginBottom: 8,
+    },
     titulo: {
         fontSize: 24,
         fontWeight: '700',
         textAlign: 'center',
-        marginTop: 64, // espaço após o menu
-        marginBottom: 4,
-    },
-    subtitulo: {
-        fontSize: 20,
-        fontWeight: '600',
-        textAlign: 'center',
-        marginTop: 24,
-        marginBottom: 12,
     },
     linha: {
         alignSelf: 'center',
@@ -85,6 +85,13 @@ const styles = StyleSheet.create({
         borderBottomColor: '#000',
         borderBottomWidth: 1,
         marginVertical: 12,
+    },
+    subtitulo: {
+        fontSize: 20,
+        fontWeight: '600',
+        textAlign: 'center',
+        marginTop: 8,
+        marginBottom: 12,
     },
     texto: {
         fontSize: 16,
