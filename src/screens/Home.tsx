@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { View, StyleSheet, Pressable, Animated, Easing } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Feather } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import {
     buscarFraseAleatoria,
@@ -138,10 +138,10 @@ export default function Home() {
                         </Pressable>
 
                         <Pressable style={styles.iconeBotao} onPress={alternarFavorito}>
-                            <FontAwesome
-                                name="star"
+                            <AntDesign
+                                name="heart"
                                 size={28}
-                                color={favoritada ? '#FFD700' : '#999'}
+                                color={favoritada ? '#e63946' : '#999'}
                             />
                         </Pressable>
                     </View>
@@ -172,12 +172,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontStyle: 'italic',
         marginBottom: 12,
+        fontFamily: 'Montserrat_400Italic',
     },
     autor: {
         textAlign: 'center',
         fontSize: 16,
         color: '#666',
         marginBottom: 24,
+        fontFamily: 'Montserrat_400Regular',
     },
     loading: {
         marginTop: 12,
