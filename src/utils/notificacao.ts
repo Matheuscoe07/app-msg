@@ -42,15 +42,13 @@ export async function agendarNotificacao(hora: number, minuto: number) {
                     data: { tipo: 'inspiracao' },
                 },
                 trigger: {
-                    type: 'calendar',
-                    weekday: 2, // segunda-feira, fixo pra garantir agendamento
                     hour: hora,
                     minute: minuto,
                     second: 0,
                     repeats: true,
                 } as Notifications.CalendarTriggerInput,
             });
-            console.log("✅ Notificação calendar agendada para segunda às", `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`);
+            console.log("✅ Notificação calendar agendada às", `${hora.toString().padStart(2, '0')}:${minuto.toString().padStart(2, '0')}`);
 
         } catch (err) {
             console.error("Falha ao agendar como calendar:", JSON.stringify(err, null, 2));
